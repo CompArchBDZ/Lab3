@@ -2,15 +2,15 @@
 
 module testSlt();
 
-	reg rs;
-	reg rt;
+	reg A;
+	reg B;
 	reg rd;
 	wire res;
 
 
 
-	add dut (.rs(rs),
-			 .rt(rt),
+	add dut (.A(A),
+			 .B(B),
 			 .rd(rd),
 			 .res(res));
 
@@ -25,10 +25,12 @@ module testSlt();
 
 		dutPassed = 1;
 
-		if(rs < rt && rd !== 1) begin //rd? res?
+		//Check if rd = 1 when A < B. 
+		if (A < B && rd !== 1) begin //rd? res?
 			dutPassed = 0;
 		end
 
+		//Test 2: Check if result is stored in register.
 		if (res !== rd) begin
 			dutPassed = 0;
 			

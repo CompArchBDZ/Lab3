@@ -2,15 +2,15 @@
 
 module testAdd();
 
-	reg rs;
-	reg rt;
+	reg A;
+	reg B;
 	reg rd;
 	wire res;
 
 
 
-	add dut (.rs(rs),
-			 .rt(rt),
+	add dut (.A(A),
+			 .B(B),
 			 .rd(rd),
 			 .res(res));
 
@@ -25,10 +25,13 @@ module testAdd();
 
 		dutPassed = 1;
 
-		if((rs+rt)!==res) begin //rd? res?
+		//Test 1: Check if A + B  = res.
+		if ((A+B) !== res) begin //rd? res?
 			dutPassed = 0;
 		end
 
+		//Test 2: Check if the result gets stored in the 
+		// register.
 		if (res !== rd) begin
 			dutPassed = 0;
 			$display("Result is not stored in register 

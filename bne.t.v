@@ -3,15 +3,15 @@
 module testBne();
 
 	reg programCounter;
-	reg rs;
-	reg rt;
+	reg A; //RegFile[rs]
+	reg B; //RegFile[rt]
 	wire res;
 	reg imm;
 
 
 	bne dut(.programCounter(programCounter),
-			.rs(rs),
-			.rt(rt),
+			.A(A),
+			.B(B),
 			.res(res),
 			.imm(imm));
 
@@ -27,13 +27,23 @@ module testBne();
 
 		dutPassed = 1;
 
-		if (rs!==rt && programCounter !== res) begin
+		//Test 1: Check if Res is PC+imm
+		if (res !== (programCounter+imm)) begin
+			dutPassed = 0;
+			$display("programCounter: %d", programCounter);
+			$display("imm: %d", imm);
+			$display("res: %d", res);
+
+		end
+
+		//Test 2: Check if it branches when rs != rt.
+		if (A!==B && programCounter !== res) begin
 			dutPassed = 0;
 			$display("programCounter: %d", programCounter);
 			$display("res: %d", res);
 
 		end
-		
+
 		$display("Did all tests pass? %b", dutPassed);
         $finish;
 
